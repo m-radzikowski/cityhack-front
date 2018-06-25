@@ -23,8 +23,8 @@ export class ReportDetailsComponent implements OnInit {
   public chartColors: Array<any> = [{
     hoverBorderColor: ['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)'],
     hoverBorderWidth: 0,
-    backgroundColor: ['#F7464A', '#46BFBD', '#FDB45C'],
-    hoverBackgroundColor: ['#FF5A5E', '#5AD3D1', '#FFC870']
+    backgroundColor: ['#dc3545', '#00c851', '#007bff'],
+    hoverBackgroundColor: ['#c62f3e', '#00b448', '#006ee5']
   }];
 
   public chartOptions: any = {

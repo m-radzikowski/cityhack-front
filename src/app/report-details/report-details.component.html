@@ -1,29 +1,35 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-6">
-      <div class="row">
-        <div class="col-sm-12">
-          <h5 *ngIf="!!report">{{report.name}}</h5>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <canvas *ngIf="chartData.length === 3" mdbChart
-                  [chartType]="chartType"
-                  [data]="chartData"
-                  [labels]="chartLabels"
-                  [colors]="chartColors"
-                  [options]="chartOptions"
-                  [legend]="true"
-                  (chartHover)="chartHovered($event)"
-                  (chartClick)="chartClicked($event)">
-          </canvas>
-        </div>
-      </div>
+    <div class="col-sm-12">
+      <h1>Raport: {{report.name}}</h1>
     </div>
-    <div class="col-sm-6">
+  </div>
+  <div class="row">
+    <div class="col-sm-5">
+      <canvas *ngIf="chartData.length === 3" mdbChart
+              [chartType]="chartType"
+              [data]="chartData"
+              [labels]="chartLabels"
+              [colors]="chartColors"
+              [options]="chartOptions"
+              [legend]="true"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)">
+      </canvas>
+    </div>
+    <div class="col-sm-5 offset-sm-1">
       <div *ngFor="let comment of comments">
-        {{comment.message}}
+        <div class="card border-{{comment.value | btColor}} mb-3">
+          <div class="card-body text-{{comment.value | btColor}}">
+            <h5 class="card-title">{{comment.message}}</h5>
+            <p class="card-text float-left mb-0">
+              Dodany: {{ comment.createdTime | toDate }}
+            </p>
+            <p class="card-text float-right mb-0">
+              <a href="{{comment.permalinkUrl}}" style="color: #999;">Zobacz oryginał</a>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

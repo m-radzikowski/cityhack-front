@@ -9,6 +9,8 @@ import { ReportDetailsComponent } from './report-details/report-details.componen
 import { ReportFormComponent } from './report-form/report-form.component';
 import {FormsModule} from '@angular/forms';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import { ToDatePipe } from './report-details/to-date.pipe';
+import { BtColorPipe } from './report-details/bt-color.pipe';
 
 const appRoutes: Routes = [
   {path: '', component: ReportListComponent},
@@ -22,7 +24,9 @@ const appRoutes: Routes = [
     AppComponent,
     ReportListComponent,
     ReportDetailsComponent,
-    ReportFormComponent
+    ReportFormComponent,
+    ToDatePipe,
+    BtColorPipe
   ],
   imports: [
     BrowserModule,
