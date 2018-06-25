@@ -1,0 +1,12 @@
+<form #reportForm="ngForm">
+  <div class="form-group">
+    <label for="name">Nazwa</label>
+    <input [(ngModel)]="report.name" class="form-control" id="name" name="name" type="text" />
+  </div>
+  <div class="form-group">
+    <label for="url">URL</label>
+    <input [(ngModel)]="report.url" class="form-control" id="url" name="url" type="url" />
+  </div>
+  <button (click)="save()" type="button" class="btn btn-primary">Zapisz</button>
+  <button (click)="cancel()" type="button" class="btn btn-warning">Anuluj</button>
+</form>
