@@ -8,7 +8,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class AppComponent {
 
-  static BASE_URL = 'http://localhost/';
+  static BASE_URL = 'http://192.168.48.36/';
 
   constructor(private http: HttpClient) {
   }

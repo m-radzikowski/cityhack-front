@@ -16,23 +16,23 @@ export class ReportDetailsComponent implements OnInit {
 
   public chartType = 'doughnut';
 
-  public chartData: Array<any> = [300, 50, 100, 40, 120];
+  public chartData: Array<any> = [];
 
-  public chartLabels: Array<any> = ['Red', 'Green', 'Yellow', 'Grey', 'Dark Grey'];
+  public chartLabels: Array<any> = ['Negatywne', 'Pozytywne', 'Neutralne'];
 
   public chartColors: Array<any> = [{
-    hoverBorderColor: ['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)'],
+    hoverBorderColor: ['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)'],
     hoverBorderWidth: 0,
-    backgroundColor: ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
-    hoverBackgroundColor: ['#FF5A5E', '#5AD3D1', '#FFC870', '#A8B3C5', '#616774']
+    backgroundColor: ['#F7464A', '#46BFBD', '#FDB45C'],
+    hoverBackgroundColor: ['#FF5A5E', '#5AD3D1', '#FFC870']
   }];
 
   public chartOptions: any = {
     responsive: true
   };
 
-  private reportUrl = AppComponent.BASE_URL + 'raports';
-  private commentUrl = AppComponent.BASE_URL + 'comments';
+  private reportUrl = AppComponent.BASE_URL + 'raports/';
+  private commentUrl = AppComponent.BASE_URL + 'comments/';
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {
   }
@@ -45,6 +45,17 @@ export class ReportDetailsComponent implements OnInit {
         });
         this.http.get(this.commentUrl + params.get('id')).subscribe((comments: Comment[]) => {
           this.comments = comments;
+          let positive = 0, negative = 0, neutral = 0;
+          this.comments.forEach((comment: Comment) => {
+            if (comment.value === 'POSITIVE') {
+              positive++;
+            } else if (comment.value === 'NEGATIVE') {
+              negative++;
+            } else {
+              neutral++;
+            }
+          });
+          this.chartData.push(negative, positive, neutral);
         });
       }
     });
