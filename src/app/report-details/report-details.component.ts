@@ -63,6 +63,24 @@ export class ReportDetailsComponent implements OnInit {
 
 
   public chartClicked(e: any): void {
+    const chartIndex = e.active[0]._index;
+    switch (chartIndex) {
+      case 0: // NEGATIVE
+        this.comments = this.comments.filter((comment: Comment) => {
+          return comment.value === 'NEGATIVE';
+        });
+        break;
+      case 1: // POSITIVE
+        this.comments = this.comments.filter((comment: Comment) => {
+          return comment.value === 'POSITIVE';
+        });
+        break;
+      case 2: // NEUTRAL https://www.facebook.com/gdansk/posts/10160557809635424
+        this.comments = this.comments.filter((comment: Comment) => {
+          return comment.value === 'NEUTRAL';
+        });
+        break;
+    }
   }
 
   public chartHovered(e: any): void {
