@@ -14,6 +14,9 @@ export class ReportDetailsComponent implements OnInit {
   report: Report;
   comments: Comment[];
 
+  private allComments: Comment[];
+  private lastIndex: number;
+
   public chartType = 'doughnut';
 
   public chartData: Array<any> = [];
@@ -45,6 +48,7 @@ export class ReportDetailsComponent implements OnInit {
         });
         this.http.get(this.commentUrl + params.get('id')).subscribe((comments: Comment[]) => {
           this.comments = comments;
+          this.allComments = comments;
           let positive = 0, negative = 0, neutral = 0;
           this.comments.forEach((comment: Comment) => {
             if (comment.value === 'POSITIVE') {
@@ -64,6 +68,14 @@ export class ReportDetailsComponent implements OnInit {
 
   public chartClicked(e: any): void {
     const chartIndex = e.active[0]._index;
+
+    if (this.lastIndex === chartIndex) {
+      this.comments = this.allComments;
+      return;
+    }
+
+    this.lastIndex = chartIndex;
+
     switch (chartIndex) {
       case 0: // NEGATIVE
         this.comments = this.comments.filter((comment: Comment) => {
