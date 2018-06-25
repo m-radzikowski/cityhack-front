@@ -69,8 +69,9 @@ export class ReportDetailsComponent implements OnInit {
   public chartClicked(e: any): void {
     const chartIndex = e.active[0]._index;
 
+    this.comments = this.allComments;
+
     if (this.lastIndex === chartIndex) {
-      this.comments = this.allComments;
       return;
     }
 
