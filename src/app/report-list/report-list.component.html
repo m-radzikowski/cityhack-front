@@ -1,25 +1,15 @@
-<table class="table table-striped table-hover">
-  <tr>
-    <th>Raports</th>
+<h1>Raporty</h1>
+
+<button class="btn btn-primary" (click)="form()">Stwórz nowy raport</button>
+
+<table class="table table-hover mt-4">
+  <tr *ngFor="let report of reports">
+    <td class="align-middle" (click)="details(report)">
+      {{report.name}}
+    </td>
+    <td style="width: 350px;">
+      <button class="btn btn-danger pull-right" (click)="remove(report.id)" style="width: 130px;">Usuń</button>
+      <button class="btn btn-success pull-right" (click)="form(report)" style="width: 130px;">Edytuj</button>
+    </td>
   </tr>
-  <tr>
-    <th>
-      <button class="btn btn-primary" (click)="form()">Dodaj</button>
-    </th>
-  </tr>
-  <ng-container *ngFor="let report of reports">
-    <tr>
-      <td>
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-sm-8" (click)="details(report)">{{report.name}}</div>
-            <div class="col-sm-4">
-              <button class="btn btn-danger pull-right" (click)="remove(report.id)">Usuń</button>
-              <button class="btn btn-success pull-right" (click)="form(report)">Edytuj</button>
-            </div>
-          </div>
-        </div>
-      </td>
-    </tr>
-  </ng-container>
 </table>
