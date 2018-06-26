@@ -6,8 +6,8 @@
   </div>
   <div class="row">
     <div class="col-sm-5">
-      <canvas *ngIf="chartData.length === 3" mdbChart
-              [chartType]="chartType"
+      <canvas style="height: 200px;" *ngIf="chartData.length === 3" mdbChart
+              chartType="doughnut"
               [data]="chartData"
               [labels]="chartLabels"
               [colors]="chartColors"
@@ -15,6 +15,15 @@
               [legend]="true"
               (chartHover)="chartHovered($event)"
               (chartClick)="chartClicked($event)">
+      </canvas>
+
+      <canvas style="height: 200px;" *ngIf="chartData.length === 3" mdbChart class="mt-5"
+              chartType="line"
+              [datasets]="daysValues"
+              [labels]="days"
+              [colors]="daysColors"
+              [options]="chartOptions"
+              [legend]="true">
       </canvas>
     </div>
     <div class="col-sm-5 offset-sm-1">

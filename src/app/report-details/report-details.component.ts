@@ -4,6 +4,7 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {AppComponent} from '../app.component';
 import {Comment} from './comment';
+import * as moment from "moment";
 
 @Component({
   templateUrl: './report-details.component.html',
@@ -17,8 +18,6 @@ export class ReportDetailsComponent implements OnInit {
   private allComments: Comment[];
   private lastIndex: number;
 
-  public chartType = 'doughnut';
-
   public chartData: Array<any> = [];
 
   public chartLabels: Array<any> = ['Negatywne', 'Pozytywne', 'Neutralne'];
@@ -29,6 +28,42 @@ export class ReportDetailsComponent implements OnInit {
     backgroundColor: ['#dc3545', '#00c851', '#007bff'],
     hoverBackgroundColor: ['#c62f3e', '#00b448', '#006ee5']
   }];
+
+  public days: Array<any> = [];
+  public daysValues: Array<any> = [
+    {data: [], label: 'Negatywne'},
+    {data: [], label: 'Pozytywne'},
+    {data: [], label: 'Neutralne'},
+  ];
+  public daysColors:Array<any> = [
+    {
+      backgroundColor: 'rgb(220, 53, 69, 0.2)',
+      borderColor: 'rgb(220, 53, 69, 1)',
+      borderWidth: 2,
+      pointBackgroundColor: 'rgb(220, 53, 69, 1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgb(220, 53, 69, 1)'
+    },
+    {
+      backgroundColor: 'rgb(0, 200, 81, 0.2)',
+      borderColor: 'rgb(0, 200, 81)',
+      borderWidth: 2,
+      pointBackgroundColor: 'rgb(0, 200, 81)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgb(0, 200, 81)'
+    },
+    {
+      backgroundColor: 'rgb(0, 123, 255, 0.2)',
+      borderColor: 'rgb(0, 123, 255)',
+      borderWidth: 2,
+      pointBackgroundColor: 'rgb(0, 123, 255)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgb(0, 123, 255)'
+    }
+  ];
 
   public chartOptions: any = {
     responsive: true
@@ -60,6 +95,44 @@ export class ReportDetailsComponent implements OnInit {
             }
           });
           this.chartData.push(negative, positive, neutral);
+
+          this.comments.sort((a, b) => {
+            const aa = new Date(a.createdTime);
+            const bb = new Date(b.createdTime);
+            if (aa < bb) {
+              return -1;
+            } else if (aa > bb) {
+              return 1;
+            } else {
+              return 0;
+            }
+          }).forEach(comment => {
+            const date = new Date(comment.createdTime);
+
+            const label = moment(date).format("DD MMM");
+
+            let idx = this.days.indexOf(label);
+            if (idx === -1) {
+              idx = this.days.push(label) - 1;
+              this.daysValues[0].data[idx] = 0;
+              this.daysValues[1].data[idx] = 0;
+              this.daysValues[2].data[idx] = 0;
+            }
+
+            let valIdx = 0;
+            if (comment.value === 'POSITIVE') {
+              valIdx = 1;
+            } else if (comment.value === 'NEGATIVE') {
+              valIdx = 0;
+            } else {
+              valIdx = 2;
+            }
+
+            this.daysValues[valIdx].data[idx] = this.daysValues[valIdx].data[idx] + 1;
+          });
+
+          console.log(this.days);
+          console.log(this.daysValues);
         });
       }
     });
