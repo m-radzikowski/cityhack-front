@@ -27,13 +27,15 @@ export class ReportFormComponent implements OnInit {
         this.http.get(this.url + params.get('id')).subscribe((report: Report) => {
           this.report = report;
         });
-        this.http.get(this.url + 'generate/' + params.get('id'));
       }
     });
   }
 
   save() {
-    this.http.post(this.url, this.report).subscribe((value) => {
+    this.http.post(this.url, this.report).subscribe((report: Report) => {
+      if (!!this.report.id) {
+        this.http.get(this.url + 'generate/' + report.id);
+      }
       this.router.navigate(['/']);
     });
   }

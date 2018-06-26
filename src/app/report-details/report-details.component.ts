@@ -1,16 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Report} from '../report-list/report';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {AppComponent} from '../app.component';
 import {Comment} from './comment';
-import * as moment from "moment";
+import * as moment from 'moment';
 
 @Component({
   templateUrl: './report-details.component.html',
   styleUrls: ['./report-details.component.css']
 })
 export class ReportDetailsComponent implements OnInit {
+
+  @ViewChild('up') up: ElementRef;
+  @ViewChild('down') down: ElementRef;
 
   report: Report;
   comments: Comment[];
@@ -35,7 +38,7 @@ export class ReportDetailsComponent implements OnInit {
     {data: [], label: 'Pozytywne'},
     {data: [], label: 'Neutralne'},
   ];
-  public daysColors:Array<any> = [
+  public daysColors: Array<any> = [
     {
       backgroundColor: 'rgb(220, 53, 69, 0.2)',
       borderColor: 'rgb(220, 53, 69, 1)',
@@ -109,7 +112,7 @@ export class ReportDetailsComponent implements OnInit {
           }).forEach(comment => {
             const date = new Date(comment.createdTime);
 
-            const label = moment(date).format("DD MMM");
+            const label = moment(date).format('DD MMM');
 
             let idx = this.days.indexOf(label);
             if (idx === -1) {
@@ -172,4 +175,21 @@ export class ReportDetailsComponent implements OnInit {
   public chartHovered(e: any): void {
   }
 
+
+  sort(up: boolean) {
+    if (up) {
+      this.up.nativeElement.style.fontWeight = 'bold';
+      this.up.nativeElement.style.color = 'blue';
+      this.down.nativeElement.style.fontWeight = 'normal';
+      this.down.nativeElement.style.color = '#6c757d';
+    } else {
+      this.down.nativeElement.style.fontWeight = 'bold';
+      this.down.nativeElement.style.color = 'blue';
+      this.up.nativeElement.style.fontWeight = 'normal';
+      this.up.nativeElement.style.color = '#6c757d';
+    }
+    this.comments = this.comments.sort((a: Comment, b: Comment) => {
+      return up ? b.likeCount - a.likeCount : a.likeCount - b.likeCount;
+    });
+  }
 }

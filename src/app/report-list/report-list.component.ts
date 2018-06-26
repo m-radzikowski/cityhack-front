@@ -33,6 +33,9 @@ export class ReportListComponent implements OnInit {
 
   remove(id: number) {
     this.http.delete(this.url + id).subscribe(() => {
+      this.reports = this.reports.filter((report: Report) => {
+        return report.id !== id;
+      });
     });
   }
 

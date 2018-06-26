@@ -27,10 +27,22 @@
       </canvas>
     </div>
     <div class="col-sm-5 offset-sm-1">
+      <div class="text-muted">
+        Sortuj według ilości:
+        <i #up class="fa fa-thumbs-o-up mr-1" (click)="sort(true, up)"></i>
+        <i #down class="fa fa-thumbs-o-down mr-1" (click)="sort(false, down)"></i>
+      </div>
+
       <div *ngFor="let comment of comments">
         <div class="card border-{{comment.value | btColor}} mb-3">
           <div class="card-body text-{{comment.value | btColor}}">
             <h5 class="card-title">{{comment.message}}</h5>
+            <p class="card-text float-left" style="color: blue;">
+              <i class="fa fa-thumbs-up mr-1"></i>{{comment.likeCount}}
+            </p>
+
+            <div class="clearfix"></div>
+
             <p class="card-text float-left mb-0">
               Dodany: {{ comment.createdTime | toDate }}
             </p>
