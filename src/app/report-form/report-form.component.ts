@@ -12,8 +12,9 @@ import {Location} from '@angular/common';
 export class ReportFormComponent implements OnInit {
 
   report: Report = new Report(0, '', '');
-
   private url = AppComponent.BASE_URL + 'raports/';
+
+  private isEdit = false;
 
   constructor(private route: ActivatedRoute,
               private http: HttpClient,
@@ -24,6 +25,7 @@ export class ReportFormComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
       if (params.has('id')) {
+        this.isEdit = true;
         this.http.get(this.url + params.get('id')).subscribe((report: Report) => {
           this.report = report;
         });
@@ -33,8 +35,10 @@ export class ReportFormComponent implements OnInit {
 
   save() {
     this.http.post(this.url, this.report).subscribe((report: Report) => {
-      if (!!this.report.id) {
-        this.http.get(this.url + 'generate/' + report.id);
+      if (!this.isEdit) {
+        this.http.get(this.url + 'generate/' + report.id).subscribe(() => {
+          console.log('RAPORT WYGENEROWANY');
+        });
       }
       this.router.navigate(['/']);
     });
