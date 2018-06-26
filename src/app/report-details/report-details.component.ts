@@ -112,7 +112,7 @@ export class ReportDetailsComponent implements OnInit {
           }).forEach(comment => {
             const date = new Date(comment.createdTime);
 
-            const label = moment(date).format('DD MMM');
+            const label = moment(date).format('DD MMM HH:00');
 
             let idx = this.days.indexOf(label);
             if (idx === -1) {
